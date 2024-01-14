@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { CartContext } from "../../contexts/CartContext";
+import { CartContext, CartContextDispatch } from "../../contexts/CartContext";
 import CartItem from "./CartItem";
 
 const Cart = () => {
   const { cart } = useContext(CartContext);
   const [totalItem, setTotalItem] = useState(0);
   const [totalPrice, setTotalPrice] = useState();
+  const { dispatch } = useContext(CartContextDispatch);
 
   useEffect(() => {
     let sumPrice = cart.reduce((acc, item) => {
@@ -18,15 +19,28 @@ const Cart = () => {
 
     setTotalPrice(sumPrice);
     setTotalItem(sumQty);
+    localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
   return (
     <div className="w-full px-4 py-6 bg-white border-y-8 rounded-xl border-lighBlue">
       <div className="flex mb-6 space-x-2">
         <img src="./cart-icon.svg" alt="" />
-        <h1 className="text-xl font-extrabold">
-          Cart <span className="text-base font-semibold text-gray-500">({totalItem}) </span>{" "}
-        </h1>
+        <div className="flex items-center justify-between w-full">
+          <h1 className="text-xl font-extrabold">
+            Cart <span className="text-base font-semibold text-gray-500">({totalItem}) </span>{" "}
+          </h1>
+          <button
+            onClick={() => {
+              if (confirm("Are you sure want to clear your cart?")) {
+                dispatch({ type: "CLEAR_CART" });
+              }
+            }}
+            className="px-2 py-1 text-sm font-semibold rounded-md border-softRed text-softRed bg-lightSoftRed/50"
+          >
+            Clear
+          </button>
+        </div>
       </div>
 
       <div className="mb-10 space-y-2">

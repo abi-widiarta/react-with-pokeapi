@@ -4,7 +4,7 @@ const CartContext = createContext();
 const CartContextDispatch = createContext();
 
 const CartProvider = ({ children }) => {
-  const [cart, dispatch] = useReducer(cartReducer, []);
+  const [cart, dispatch] = useReducer(cartReducer, JSON.parse(localStorage.getItem("cart")) || []);
 
   return (
     <CartContext.Provider value={{ cart }}>
@@ -51,6 +51,9 @@ const cartReducer = (state, action) => {
           }
         });
       }
+
+    case "CLEAR_CART":
+      return [];
   }
 };
 
