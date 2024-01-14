@@ -1,8 +1,15 @@
 import Color, { Palette } from "color-thief-react";
+import { useContext, useState } from "react";
+import { CardItemContext, CardItemProvider } from "../../contexts/CardItemContext";
+import { CartContextDispatch } from "../../contexts/CartContext";
 
 const CardItem = (props) => {
   const { children } = props;
-  return <div className="bg-white flex flex-col rounded-xl shadow-lg shadow-gray-400/10 pb-2 overflow-hidden">{children}</div>;
+  return (
+    <CardItemProvider>
+      <div className="flex flex-col pb-2 overflow-hidden bg-white shadow-lg rounded-xl shadow-gray-400/10">{children}</div>
+    </CardItemProvider>
+  );
 };
 
 const Header = (props) => {
@@ -10,11 +17,12 @@ const Header = (props) => {
   return (
     <Palette src={img} crossOrigin="anonymous" format="hex" colorCount={4}>
       {({ data, loading }) => {
-        if (loading) return <p>loading</p>;
+        if (loading) return <div className="relative grid w-full bg-gray-200 h-44 place-items-center animate-pulse"></div>;
+
         return (
-          <div style={{ backgroundColor: `${data[1]}` }} className="w-full relative h-44  grid place-items-center">
+          <div style={{ backgroundColor: `${data[1]}` }} className="relative grid w-full h-44 place-items-center">
             <div className="absolute w-full h-full bg-white/10"></div>
-            <img src={img} className="w-20 aspect-square drop-shadow-[6px_12px_0px_rgba(0,0,0,0.2)] "></img>
+            <img src={img} className="w-20 aspect-square drop-shadow-[6px_12px_0px_rgba(0,0,0,0.2)]"></img>
           </div>
         );
       }}
@@ -24,18 +32,20 @@ const Header = (props) => {
 
 const Body = (props) => {
   const { title, children, price } = props;
+  const { qty, increaseQty, decreaseQty } = useContext(CardItemContext);
+
   return (
     <>
-      <h1 className="text-xl font-semibold tracking-wider mb-2">{title}</h1>
-      <p className="text-sm h-20">{children}</p>
-      <div className="flex justify-between items-center mb-6">
-        <p className="font-semibold text-lg">$ {price}</p>
-        <div className="flex h-9 items-center  rounded-lg overflow-hidden">
-          <button className="bg-lightSoftRed px-2 h-full">
+      <h1 className="mb-2 text-xl font-bold tracking-wider">{title}</h1>
+      <p className="h-20 text-sm">{children}</p>
+      <div className="flex items-center justify-between mb-6">
+        <p className="text-lg font-semibold">$ {price}</p>
+        <div className="flex items-center overflow-hidden rounded-lg h-9">
+          <button onClick={() => decreaseQty()} className={`h-full px-2 bg-lightSoftRed ${qty == 1 ? "opacity-35" : ""}`}>
             <img src="./minus-icon.png" alt="minus" />
           </button>
-          <p className="px-4">1</p>
-          <button className="bg-lightSoftGreen px-2 h-full">
+          <p className="w-10 text-center">{qty}</p>
+          <button onClick={() => increaseQty()} className="h-full px-2 bg-lightSoftGreen">
             <img src="./plus-icon.png" alt="minus" />
           </button>
         </div>
@@ -44,9 +54,18 @@ const Body = (props) => {
   );
 };
 
-const Footer = () => {
+const Footer = (props) => {
+  const { id, name, price, img } = props;
+  const { dispatch } = useContext(CartContextDispatch);
+  const { qty, setQty } = useContext(CardItemContext);
+
+  const handleAddToCart = () => {
+    dispatch({ type: "ADD", payload: { id, name, price, img, qty } });
+    setQty(1);
+  };
+
   return (
-    <button className="py-3 flex justify-center bg-lightBlue2 rounded-lg border-2 border-darkBlue2 w-full">
+    <button onClick={handleAddToCart} className="flex justify-center w-full py-3 border-2 rounded-lg bg-lightBlue2 border-darkBlue2">
       <div className="flex items-start">
         <img src="./cart-card.png" alt="" />
         <p className="text-sm font-bold text-darkBlue2">Add To Cart</p>

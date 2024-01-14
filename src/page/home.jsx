@@ -46,16 +46,16 @@ const HomePage = () => {
   // }, [itemDetails]);
 
   return (
-    <div className="w-full h-screen pt-20 px-12 relative">
+    <div className="relative w-full h-screen px-12 pt-20">
       <nav className="bg-lighBlue px-12 py-2.5 fixed top-0 left-0 w-full z-10 shadow-lg shadow-gray-200">
         <div className="flex items-center space-x-2">
           <img src="./logo.png" alt="logo" />
-          <p className="font-bold text-darkBlue tracking-widest text-lg">PokeMart</p>
+          <p className="text-lg font-bold tracking-widest text-darkBlue">PokeMart</p>
         </div>
       </nav>
       <main>
-        <h1 className="text-2xl text-textDarkBlue font-bold tracking-normal mb-6">Welcome Trainers!, choose your item!</h1>
-        <div className="flex gap-10 w-full">
+        <h1 className="mb-8 text-2xl font-bold tracking-normal text-textDarkBlue">Welcome Trainers!, choose your item!</h1>
+        <div className="flex w-full gap-10">
           <div className="w-[70%] grid grid-cols-3 gap-6">
             {itemDetails.map((item, index) => {
               return (
@@ -65,7 +65,7 @@ const HomePage = () => {
                     <CardItem.Body title={item.data.name} price={item.data.cost}>
                       {item.data.effect_entries[0].short_effect}
                     </CardItem.Body>
-                    <CardItem.Footer></CardItem.Footer>
+                    <CardItem.Footer img={item.data.sprites.default} id={item.data.id} name={item.data.name} price={item.data.cost}></CardItem.Footer>
                   </div>
                 </CardItem>
               );
