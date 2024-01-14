@@ -4,16 +4,23 @@ import Cart from "../components/fragments/Cart";
 import { getItems, getItemDetail } from "../services/products.service";
 
 const HomePage = () => {
+  const [url, setUrl] = useState("https://pokeapi.co/api/v2/item");
   const [allItems, setItems] = useState([]);
   const [itemDetails, setItemDetails] = useState([]);
+  const [prevPage, setPrevPage] = useState(null);
+  const [nextPage, setNextPage] = useState(null);
 
   useEffect(() => {
-    getItems((status, response) => {
+    getItems(url, (status, response, prev, next) => {
       if (status) {
         setItems(response);
+        setPrevPage(prev);
+        setNextPage(next);
       }
     });
-  }, []);
+  }, [url]);
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     if (allItems && allItems.length > 0) {
@@ -32,21 +39,22 @@ const HomePage = () => {
 
         const itemDetailsArray = await Promise.all(promises);
         setItemDetails(itemDetailsArray.filter((detail) => detail !== null));
-        console.log(itemDetails);
       };
 
       fetchItemDetails();
     }
   }, [allItems]);
 
-  // useEffect(() => {
-  //   if (itemDetails && itemDetails.length > 0) {
-  //     console.log(itemDetails);
-  //   }
-  // }, [itemDetails]);
+  const navigatePage = (url) => {
+    setUrl(url);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
-    <div className="relative w-full h-screen px-12 pt-20">
+    <div className="relative w-full h-screen px-12 pt-20 pb-20">
       <nav className="bg-lighBlue px-12 py-2.5 fixed top-0 left-0 w-full z-10 shadow-lg shadow-gray-200">
         <div className="flex items-center space-x-2">
           <img src="./logo.png" alt="logo" />
@@ -74,6 +82,15 @@ const HomePage = () => {
           <div className="w-[30%] h-full">
             <Cart />
           </div>
+        </div>
+
+        <div className="flex mt-4 space-x-4">
+          <button onClick={() => navigatePage(prevPage)} className={`p-2 bg-white rounded-lg ${prevPage === null ? "opacity-35 pointer-events-none" : ""}`}>
+            <img src="./prev.svg" alt="" />
+          </button>
+          <button onClick={() => navigatePage(nextPage)} className={`p-2 bg-white rounded-lg ${nextPage === null ? "opacity-35 pointer-events-none" : ""}`}>
+            <img src="./next.svg" alt="" />
+          </button>
         </div>
       </main>
     </div>

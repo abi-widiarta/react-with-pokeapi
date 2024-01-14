@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const getItems = (callback) => {
+const getItems = (url, callback) => {
   axios
-    .get("https://pokeapi.co/api/v2/item")
+    .get(url)
     .then((response) => {
-      callback(true, response.data.results);
+      callback(true, response.data.results, response.data.previous, response.data.next);
     })
     .catch((err) => {
       callback(false, err);

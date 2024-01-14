@@ -37,7 +37,7 @@ const Body = (props) => {
   return (
     <>
       <h1 className="mb-2 text-xl font-bold tracking-wider">{title}</h1>
-      <p className="h-20 text-sm">{children}</p>
+      <p className="h-20 mb-1 text-sm line-clamp-4 text-ellipsis">{children}</p>
       <div className="flex items-center justify-between mb-6">
         <p className="text-lg font-semibold">$ {price}</p>
         <div className="flex items-center overflow-hidden rounded-lg h-9">
