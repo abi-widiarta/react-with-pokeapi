@@ -54,6 +54,9 @@ const cartReducer = (state, action) => {
 
     case "CLEAR_CART":
       return [];
+
+    case "CHECKOUT_CART":
+      return [];
   }
 };
 

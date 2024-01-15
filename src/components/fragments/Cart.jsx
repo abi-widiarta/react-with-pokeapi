@@ -22,6 +22,12 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  const handleCheckout = () => {
+    if (confirm("Are you sure want to checkout this order?")) {
+      dispatch({ type: "CHECKOUT_CART" });
+    }
+  };
+
   return (
     <div className="w-full px-4 py-6 bg-white border-y-8 rounded-xl border-lighBlue">
       <div className="flex mb-6 space-x-2">
@@ -60,7 +66,9 @@ const Cart = () => {
             <p className="text-lg font-medium ">Total Price : </p>
             <p className="text-xl font-bold">${totalPrice}</p>
           </div>
-          <button className="w-full py-2.5 font-bold border rounded-lg border-softGreen bg-lightSoftGreen/80 text-softGreen">Check Out</button>
+          <button onClick={handleCheckout} className="w-full py-2.5 font-bold border rounded-lg border-softGreen bg-lightSoftGreen/80 text-softGreen">
+            Check Out
+          </button>
         </>
       )}
     </div>

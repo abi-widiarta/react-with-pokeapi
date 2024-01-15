@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import CardItem from "../components/fragments/CardItem";
 import Cart from "../components/fragments/Cart";
 import { getItems, getItemDetail } from "../services/products.service";
-import SkeletonItem from "../components/fragments/SkeletonCard";
-import SkeletonCardItem from "../components/elements/SkeletonCardItem";
 import SkeletonCard from "../components/fragments/SkeletonCard";
+import ItemPageLayout from "../components/layouts/ItemPageLayout";
 
-const HomePage = () => {
+const ItemPage = () => {
   const [url, setUrl] = useState("https://pokeapi.co/api/v2/item");
   const [allItems, setItems] = useState([]);
   const [itemDetails, setItemDetails] = useState([]);
@@ -59,15 +58,8 @@ const HomePage = () => {
   };
 
   return (
-    <div className="relative w-full h-screen px-12 pt-20 pb-20">
-      <nav className="bg-lighBlue px-12 py-2.5 fixed top-0 left-0 w-full z-10 shadow-lg shadow-gray-200">
-        <div className="flex items-center space-x-2">
-          <img src="./logo.png" alt="logo" />
-          <p className="text-lg font-bold tracking-widest text-darkBlue">PokeMart</p>
-        </div>
-      </nav>
-      <main>
-        <h1 className="mb-8 text-2xl font-bold tracking-normal text-textDarkBlue">Welcome Trainers!, choose your item!</h1>
+    <ItemPageLayout>
+      <>
         <div className="flex w-full gap-10">
           <div className="w-[70%] grid grid-cols-3 gap-6 items-start">
             {loading == true ? (
@@ -101,9 +93,9 @@ const HomePage = () => {
             <img src="./next.svg" alt="" />
           </button>
         </div>
-      </main>
-    </div>
+      </>
+    </ItemPageLayout>
   );
 };
 
-export default HomePage;
+export default ItemPage;
