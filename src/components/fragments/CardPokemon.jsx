@@ -1,12 +1,15 @@
 import Color, { Palette } from "color-thief-react";
 import { PokemonTypesContext, PokemonTypesProvider } from "../../contexts/PokemonTypesContext";
 import { useContext } from "react";
+import { motion } from "framer-motion";
 
 const CardPokemon = (props) => {
-  const { children } = props;
+  const { children, onClick } = props;
   return (
     <PokemonTypesProvider>
-      <div className="flex flex-col pb-2 overflow-hidden bg-white border shadow-lg rounded-xl shadow-gray-400/10">{children}</div>
+      <div onClick={onClick} className="flex flex-col pb-2 overflow-hidden transition-all duration-150 bg-white border shadow-lg hover:cursor-pointer group hover:scale-105 rounded-xl shadow-gray-400/10">
+        {children}
+      </div>
     </PokemonTypesProvider>
   );
 };
@@ -21,7 +24,7 @@ const Header = (props) => {
         return (
           <div className="relative grid w-full mb-6 h-44 place-items-center">
             <div style={{ backgroundColor: `${data[0]}` }} className="absolute z-10 w-[150%] -translate-y-[10rem] rounded-full aspect-square"></div>
-            <img src={img} className="z-30 w-44 translate-y-12 aspect-square drop-shadow-[0px_4px_0px_rgba(0,0,0,0.15)]"></img>
+            <img src={img} className="group-hover:scale-125 group-hover:translate-y-8 transition-all duration-150 z-30 w-44 translate-y-12 aspect-square drop-shadow-[0px_4px_0px_rgba(0,0,0,0.15)]"></img>
           </div>
         );
       }}
@@ -32,7 +35,6 @@ const Header = (props) => {
 const Body = (props) => {
   const { name, id, types } = props;
   const { typesColor } = useContext(PokemonTypesContext);
-  console.log(typesColor);
 
   return (
     <>

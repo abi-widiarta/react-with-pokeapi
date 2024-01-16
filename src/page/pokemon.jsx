@@ -3,6 +3,9 @@ import PokemonPageLayout from "../components/layouts/PokemonPageLayout";
 import CardPokemon from "../components/fragments/CardPokemon";
 import { getPokemon, getPokemonDetail } from "../services/pokemons.service";
 import SkeletonCard from "../components/fragments/SkeletonCard";
+import Modal from "../components/elements/Modal";
+import { AnimatePresence } from "framer-motion";
+import { PokemonTypesProvider } from "../contexts/PokemonTypesContext";
 
 const PokemonPage = () => {
   const [url, setUrl] = useState("https://pokeapi.co/api/v2/pokemon");
@@ -13,6 +16,9 @@ const PokemonPage = () => {
   const [nextPage, setNextPage] = useState(null);
 
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const [modalItem, setModalItem] = useState({});
 
   useEffect(() => {
     getPokemon(url, (status, response, prev, next) => {
@@ -68,7 +74,13 @@ const PokemonPage = () => {
             ) : (
               pokemonDetails.map((item, index) => {
                 return (
-                  <CardPokemon key={index}>
+                  <CardPokemon
+                    key={index}
+                    onClick={() => {
+                      setModalItem(item);
+                      setModalOpen(true);
+                    }}
+                  >
                     <CardPokemon.Header img={item.sprites.other["official-artwork"].front_default}></CardPokemon.Header>
                     <div className="px-4 py-4">
                       <CardPokemon.Body name={item.name} id={item.id} types={item.types} />
@@ -90,6 +102,14 @@ const PokemonPage = () => {
           </button>
         </div>
       </>
+      {/* <Modal /> */}
+      {modalOpen && (
+        <PokemonTypesProvider>
+          <Modal stats={modalItem.stats} item={modalItem} onClick={() => setModalOpen(false)} />
+        </PokemonTypesProvider>
+      )}
+      {/* <AnimatePresence initial={false} mode="wait">
+      </AnimatePresence> */}
     </PokemonPageLayout>
   );
 };
