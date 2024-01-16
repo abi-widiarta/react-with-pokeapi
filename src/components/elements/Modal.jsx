@@ -83,10 +83,24 @@ const Modal = (props) => {
                     initial={{ opacity: 0, top: "50%", x: "-80%", y: "-45%" }}
                     animate={{ opacity: 1, top: "50%", x: "-65%", y: "-45%" }}
                     style={{ backgroundColor: `${data[0]}` }}
-                    className="absolute -translate-y-[45%] top-[50%] h-[150%] bg-teal-600 rounded-full -translate-x-[65%] aspect-square"
+                    className="absolute -translate-y-[45%] top-[50%] h-[150%]  rounded-full -translate-x-[65%] aspect-square"
                   ></motion.div>
 
-                  <motion.img variants={scaleUp} initial="hidden" animate="visible" className="z-10 w-96 drop-shadow-[0px_4px_0px_rgba(0,0,0,0.15)]" src={item.sprites.other["official-artwork"].front_default} alt="" />
+                  <motion.div
+                    initial={{ opacity: 0, top: "50%", x: "-80%", y: "-45%" }}
+                    animate={{ opacity: 0.3, top: "50%", x: "-60%", y: "-45%" }}
+                    style={{ backgroundColor: `${data[0]}` }}
+                    className="absolute -translate-y-[45%] top-[50%] h-[150%]  rounded-full -translate-x-[60%] aspect-square"
+                  ></motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, top: "50%", x: "-80%", y: "-45%" }}
+                    animate={{ opacity: 0.1, top: "50%", x: "-55%", y: "-45%" }}
+                    style={{ backgroundColor: `${data[0]}` }}
+                    className="absolute -translate-y-[45%] top-[50%] h-[150%]  rounded-full -translate-x-[55%] aspect-square"
+                  ></motion.div>
+
+                  <motion.img draggable="false" variants={scaleUp} initial="hidden" animate="visible" className="z-10 w-96 drop-shadow-[0px_4px_0px_rgba(0,0,0,0.15)]" src={item.sprites.other["official-artwork"].front_default} alt="" />
                   <p className="absolute z-10 font-bold tracking-normal bottom-2 text-black/10 text-7xl">#{item.id.toString().padStart(4, "0")}</p>
                 </>
               );
@@ -100,7 +114,13 @@ const Modal = (props) => {
             {flavorText.length > 0 &&
               flavorText.map((text, index) => (
                 <p key={index} className="mb-2 text-sm font-medium tracking-wide text-gray-600">
-                  {text.replace(/\\f/g, "asdfasdf")}
+                  {text
+                    .replace(/\f/g, "\n")
+                    .replace(/\u00ad\n/g, "")
+                    .replace(/\u00ad/g, "")
+                    .replace(" -\n", " - ")
+                    .replace(/-\n/g, "-")
+                    .replace(/\n/g, " ")}
                 </p>
               ))}
             {flavorText.length == 0 && (
@@ -115,7 +135,7 @@ const Modal = (props) => {
           <div className="mb-6">
             <h2 className="mb-3 text-base font-extrabold tracking-widest">Type</h2>
 
-            <div className="flex justify-start">
+            <div className="flex justify-start space-x-1">
               {item.types.map((item, index) => (
                 <div
                   style={{ backgroundColor: typesColor[item.type.name] != undefined ? typesColor[item.type.name].bg : "#ababab", color: typesColor[item.type.name] != undefined ? typesColor[item.type.name].text : "#ababab" }}

@@ -7,7 +7,7 @@ const CardPokemon = (props) => {
   const { children, onClick } = props;
   return (
     <PokemonTypesProvider>
-      <div onClick={onClick} className="flex flex-col pb-2 overflow-hidden transition-all duration-150 bg-white border shadow-lg hover:cursor-pointer group hover:scale-105 rounded-xl shadow-gray-400/10">
+      <div onClick={onClick} className="flex flex-col pb-2 overflow-hidden transition-all duration-150 bg-white border shadow-lg hover:cursor-pointer group hover:scale-105 rounded-2xl shadow-gray-400/10">
         {children}
       </div>
     </PokemonTypesProvider>
