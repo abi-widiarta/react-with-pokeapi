@@ -27,7 +27,7 @@ const Header = (props) => {
         if (loading) return <div className="relative grid w-full bg-gray-200 h-44 place-items-center animate-pulse"></div>;
         return (
           <div className="relative grid w-full mb-6 h-44 place-items-center">
-            <div style={{ backgroundColor: `${data[0]}` || "#000" }} className="absolute z-10 w-[150%] -translate-y-[10rem] rounded-full aspect-square"></div>
+            <div style={{ backgroundColor: `${data[0]}` || "#000" }} className="absolute  w-[150%] -translate-y-[10rem] rounded-full aspect-square"></div>
             <img src={img} className="group-hover:scale-125 group-hover:translate-y-8 transition-all duration-150 z-30 w-44 translate-y-12 aspect-square drop-shadow-[0px_4px_0px_rgba(0,0,0,0.15)]"></img>
           </div>
         );
@@ -41,7 +41,7 @@ const Body = (props) => {
   const { typesColor } = useContext(PokemonTypesContext);
 
   return (
-    <>
+    <div className="relative z-20">
       <h1 className="mb-1 text-2xl font-extrabold tracking-wider "> {name.charAt(0).toUpperCase() + name.slice(1)}</h1>
       <p className="mb-2 text-sm text-gray-400">#{id.toString().padStart(4, "0")}</p>
       <div className="flex justify-start w-full gap-1 mb-4">
@@ -55,7 +55,7 @@ const Body = (props) => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

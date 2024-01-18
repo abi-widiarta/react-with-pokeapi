@@ -45,7 +45,7 @@ const DropdownType = (props) => {
         stiffness: 313,
         damping: 23,
       },
-      transformOrigin: "top right",
+      transformOrigin: "top left",
     },
     exit: {
       scale: 0.5,
@@ -59,7 +59,7 @@ const DropdownType = (props) => {
     },
   };
   return (
-    <motion.div variants={scaleUp} initial="hidden" animate="visible" exit="exit" className="absolute right-0 z-50 p-6 bg-white rounded-lg shadow-xl top-14 w-96">
+    <motion.div variants={scaleUp} initial="hidden" animate="visible" exit="exit" className="absolute left-0 z-50 p-6 bg-white rounded-lg shadow-xl top-14 w-96">
       <h3 className="mb-4 text-sm font-semibold text-gray-500">Choose One :</h3>
 
       <div className="grid justify-center grid-cols-4 grid-rows-5 gap-2">

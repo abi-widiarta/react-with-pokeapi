@@ -73,44 +73,55 @@ const Modal = (props) => {
 
   return (
     <Backdrop onClick={onClick}>
-      <motion.div className="w-[800px] rounded-3xl h-[450px] bg-white overflow-hidden shadow-lg flex" variants={scaleUp} initial="hidden" animate="visible" exit="exit" onClick={(e) => e.stopPropagation()} drag>
-        <div className="w-[40%] relative h-full flex items-center p-4">
-          <Palette src={img} crossOrigin="anonymous" format="hex" colorCount={4}>
-            {({ data, loading }) => {
-              if (loading) return;
+      <motion.div
+        className="w-[80%] md:w-[800px] rounded-3xl  md:h-[450px] bg-white overflow-hidden shadow-lg flex flex-col md:flex-row"
+        variants={scaleUp}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        onClick={(e) => e.stopPropagation()}
+        drag
+      >
+        <div className="w-full justify-center md:justify-start md:w-[40%] relative h-full flex items-center p-4">
+          <div className="block w-40 md:w-96 aspect-square">
+            <Palette src={img} crossOrigin="anonymous" format="hex" colorCount={4}>
+              {({ data, loading }) => {
+                if (loading) return;
 
-              return (
-                <>
-                  <motion.div
-                    initial={{ opacity: 0, top: "50%", x: "-80%", y: "-45%" }}
-                    animate={{ opacity: 1, top: "50%", x: "-65%", y: "-45%" }}
-                    style={{ backgroundColor: `${data[0]}` }}
-                    className="absolute -translate-y-[45%] top-[50%] h-[150%]  rounded-full -translate-x-[65%] aspect-square"
-                  ></motion.div>
+                return (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0, top: "50%", x: "-80%", y: "-45%" }}
+                      animate={{ opacity: 1, top: "50%", x: "-65%", y: "-45%" }}
+                      style={{ backgroundColor: `${data[0]}` }}
+                      className="absolute -translate-y-[45%] top-[50%] h-[0%] md:h-[150%]  rounded-full -translate-x-[65%] aspect-square"
+                    ></motion.div>
 
-                  <motion.div
-                    initial={{ opacity: 0, top: "50%", x: "-80%", y: "-45%" }}
-                    animate={{ opacity: 0.3, top: "50%", x: "-60%", y: "-45%" }}
-                    style={{ backgroundColor: `${data[0]}` }}
-                    className="absolute -translate-y-[45%] top-[50%] h-[150%]  rounded-full -translate-x-[60%] aspect-square"
-                  ></motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, top: "50%", x: "-80%", y: "-45%" }}
+                      animate={{ opacity: 0.3, top: "50%", x: "-60%", y: "-45%" }}
+                      style={{ backgroundColor: `${data[0]}` }}
+                      className="absolute -translate-y-[45%] top-[50%] h-[0%] md:h-[150%]  rounded-full -translate-x-[60%] aspect-square"
+                    ></motion.div>
 
-                  <motion.div
-                    initial={{ opacity: 0, top: "50%", x: "-80%", y: "-45%" }}
-                    animate={{ opacity: 0.1, top: "50%", x: "-55%", y: "-45%" }}
-                    style={{ backgroundColor: `${data[0]}` }}
-                    className="absolute -translate-y-[45%] top-[50%] h-[150%]  rounded-full -translate-x-[55%] aspect-square"
-                  ></motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, top: "50%", x: "-80%", y: "-45%" }}
+                      animate={{ opacity: 0.1, top: "50%", x: "-55%", y: "-45%" }}
+                      style={{ backgroundColor: `${data[0]}` }}
+                      className="absolute -translate-y-[45%] top-[50%] h-[0%] md:h-[150%]  rounded-full -translate-x-[55%] aspect-square"
+                    ></motion.div>
 
-                  <motion.img draggable="false" variants={scaleUp} initial="hidden" animate="visible" className="z-10 w-96 drop-shadow-[0px_4px_0px_rgba(0,0,0,0.15)]" src={img} alt="" />
-                  <p className="absolute z-10 font-bold tracking-normal bottom-2 text-black/10 text-7xl">#{item.id.toString().padStart(4, "0")}</p>
-                </>
-              );
-            }}
-          </Palette>
+                    <motion.img draggable="false" variants={scaleUp} initial="hidden" animate="visible" className="z-20 w-full md:w-96 drop-shadow-[0px_4px_0px_rgba(0,0,0,0.15)]" src={img} alt="" />
+
+                    <p className="absolute z-10 font-bold tracking-normal bottom-2 text-black/10 text-7xl">#{item.id.toString().padStart(4, "0")}</p>
+                  </>
+                );
+              }}
+            </Palette>
+          </div>
         </div>
 
-        <div className="w-[60%]  px-4 py-8">
+        <div className="w-full md:w-[60%]  px-4 py-8">
           <h1 className="mb-3 text-3xl font-extrabold tracking-widest">{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</h1>
           <div className="mb-6">
             {flavorText.length > 0 &&

@@ -68,31 +68,32 @@ const PokemonPage = () => {
   return (
     <PokemonPageLayout>
       <>
-        <div className="flex w-full gap-10 mx-auto">
-          <div className="grid items-start w-full grid-cols-4 gap-6">
-            {loading == true ? (
-              <SkeletonCard />
-            ) : (
-              pokemonDetails.map((item, index) => {
-                return (
-                  <CardPokemon
-                    key={index}
-                    onClick={() => {
-                      setModalItem(item);
-                      setModalOpen(true);
-                    }}
-                  >
-                    <CardPokemon.Header item={item} img={item.sprites.other["official-artwork"].front_default}></CardPokemon.Header>
-                    <div className="px-4 py-4">
-                      <CardPokemon.Body name={item.name} id={item.id} types={item.types} />
-                      <CardPokemon.Footer stats={item.stats} height={item.height} weight={item.weight}></CardPokemon.Footer>
-                    </div>
-                  </CardPokemon>
-                );
-              })
-            )}
-          </div>
+        <div className="grid items-start grid-cols-1 gap-6 mx-auto w-cull sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+          {loading == true ? (
+            <SkeletonCard />
+          ) : (
+            pokemonDetails.map((item, index) => {
+              return (
+                <CardPokemon
+                  key={index}
+                  onClick={() => {
+                    setModalItem(item);
+                    setModalOpen(true);
+                    document.body.style.overflow = "hidden";
+                  }}
+                >
+                  <CardPokemon.Header item={item} img={item.sprites.other["official-artwork"].front_default}></CardPokemon.Header>
+                  <div className="px-4 py-4">
+                    <CardPokemon.Body name={item.name} id={item.id} types={item.types} />
+                    <CardPokemon.Footer stats={item.stats} height={item.height} weight={item.weight}></CardPokemon.Footer>
+                  </div>
+                </CardPokemon>
+              );
+            })
+          )}
         </div>
+
+        {pokemonDetails.length == 0 && <p className="font-semibold text-center text-gray-500">No data</p>}
 
         <div className="flex mt-4 space-x-4 ">
           <button onClick={() => navigatePage(prevPage)} className={`p-2 bg-white shadow-md rounded-lg ${prevPage === null ? "opacity-35 pointer-events-none" : ""}`}>
@@ -106,7 +107,14 @@ const PokemonPage = () => {
       {/* <Modal /> */}
       {modalOpen && (
         <PokemonTypesProvider>
-          <Modal stats={modalItem.stats} item={modalItem} onClick={() => setModalOpen(false)} />
+          <Modal
+            stats={modalItem.stats}
+            item={modalItem}
+            onClick={() => {
+              setModalOpen(false);
+              document.body.style.overflow = "auto";
+            }}
+          />
         </PokemonTypesProvider>
       )}
       {/* <AnimatePresence initial={false} mode="wait">
