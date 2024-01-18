@@ -9,6 +9,8 @@ const SkeletonCard = () => {
       <SkeletonCardItem />
       <SkeletonCardItem />
       <SkeletonCardItem />
+      <SkeletonCardItem />
+      <SkeletonCardItem />
     </>
   );
 };

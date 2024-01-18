@@ -21,4 +21,18 @@ const getPokemonSpecies = (url, callback) => {
     .catch((response) => callback(false, response));
 };
 
-export { getPokemon, getPokemonDetail, getPokemonSpecies };
+const getAllPokemonTypes = (url, callback) => {
+  axios
+    .get(url)
+    .then((response) => callback(true, response.data.results))
+    .catch((response) => callback(false, response));
+};
+
+const getAllPokemonOnOneType = (url, callback) => {
+  axios
+    .get(url)
+    .then((response) => callback(true, response.data.pokemon))
+    .catch((response) => callback(false, response));
+};
+
+export { getPokemon, getPokemonDetail, getPokemonSpecies, getAllPokemonTypes, getAllPokemonOnOneType };

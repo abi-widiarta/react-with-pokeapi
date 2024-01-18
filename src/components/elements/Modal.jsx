@@ -10,6 +10,12 @@ const Modal = (props) => {
   const { typesColor } = useContext(PokemonTypesContext);
   const [flavorText, setFlavorText] = useState([]);
 
+  let img = item.sprites.other["official-artwork"].front_default;
+
+  if (img == null) {
+    img = "./pokedex.svg";
+  }
+
   const hp = stats[0].base_stat;
   const att = stats[1].base_stat;
   const def = stats[2].base_stat;
@@ -24,10 +30,6 @@ const Modal = (props) => {
       }
     });
   }, [item.species.url]);
-
-  useEffect(() => {
-    console.log(flavorText);
-  }, [flavorText]);
 
   const scaleUp = {
     hidden: {
@@ -73,7 +75,7 @@ const Modal = (props) => {
     <Backdrop onClick={onClick}>
       <motion.div className="w-[800px] rounded-3xl h-[450px] bg-white overflow-hidden shadow-lg flex" variants={scaleUp} initial="hidden" animate="visible" exit="exit" onClick={(e) => e.stopPropagation()} drag>
         <div className="w-[40%] relative h-full flex items-center p-4">
-          <Palette src={item.sprites.other["official-artwork"].front_default} crossOrigin="anonymous" format="hex" colorCount={4}>
+          <Palette src={img} crossOrigin="anonymous" format="hex" colorCount={4}>
             {({ data, loading }) => {
               if (loading) return;
 
@@ -100,7 +102,7 @@ const Modal = (props) => {
                     className="absolute -translate-y-[45%] top-[50%] h-[150%]  rounded-full -translate-x-[55%] aspect-square"
                   ></motion.div>
 
-                  <motion.img draggable="false" variants={scaleUp} initial="hidden" animate="visible" className="z-10 w-96 drop-shadow-[0px_4px_0px_rgba(0,0,0,0.15)]" src={item.sprites.other["official-artwork"].front_default} alt="" />
+                  <motion.img draggable="false" variants={scaleUp} initial="hidden" animate="visible" className="z-10 w-96 drop-shadow-[0px_4px_0px_rgba(0,0,0,0.15)]" src={img} alt="" />
                   <p className="absolute z-10 font-bold tracking-normal bottom-2 text-black/10 text-7xl">#{item.id.toString().padStart(4, "0")}</p>
                 </>
               );

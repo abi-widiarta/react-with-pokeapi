@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PokemonPageLayout from "../components/layouts/PokemonPageLayout";
 import CardPokemon from "../components/fragments/CardPokemon";
 import { getPokemon, getPokemonDetail } from "../services/pokemons.service";
 import SkeletonCard from "../components/fragments/SkeletonCard";
 import Modal from "../components/elements/Modal";
-import { AnimatePresence } from "framer-motion";
 import { PokemonTypesProvider } from "../contexts/PokemonTypesContext";
+import { AllPokemonContext } from "../contexts/AllPokemonContext";
+import { CardPokemonLoadingContext } from "../contexts/CardPokemonLoadingContext";
 
 const PokemonPage = () => {
   const [url, setUrl] = useState("https://pokeapi.co/api/v2/pokemon");
-  const [allPokemons, setPokemons] = useState([]);
+  const { allPokemons, setAllPokemons } = useContext(AllPokemonContext);
 
   const [pokemonDetails, setPokemonDetails] = useState([]);
   const [prevPage, setPrevPage] = useState(null);
   const [nextPage, setNextPage] = useState(null);
 
-  const [loading, setLoading] = useState(true);
+  const { loading, setLoading } = useContext(CardPokemonLoadingContext);
+
   const [modalOpen, setModalOpen] = useState(false);
 
   const [modalItem, setModalItem] = useState({});
@@ -23,12 +25,12 @@ const PokemonPage = () => {
   useEffect(() => {
     getPokemon(url, (status, response, prev, next) => {
       if (status) {
-        setPokemons(response);
+        setAllPokemons(response);
         setPrevPage(prev);
         setNextPage(next);
       }
     });
-  }, [url]);
+  }, [url, setAllPokemons]);
 
   useEffect(() => {
     if (allPokemons && allPokemons.length > 0) {
@@ -47,13 +49,12 @@ const PokemonPage = () => {
 
         const pokemonDetailsArray = await Promise.all(promises);
         setPokemonDetails(pokemonDetailsArray.filter((detail) => detail !== null));
-        console.log(pokemonDetailsArray);
         setLoading(false);
       };
 
       fetchItemDetails();
     }
-  }, [allPokemons]);
+  }, [allPokemons, setLoading]);
 
   const navigatePage = (url) => {
     setUrl(url);
@@ -81,7 +82,7 @@ const PokemonPage = () => {
                       setModalOpen(true);
                     }}
                   >
-                    <CardPokemon.Header img={item.sprites.other["official-artwork"].front_default}></CardPokemon.Header>
+                    <CardPokemon.Header item={item} img={item.sprites.other["official-artwork"].front_default}></CardPokemon.Header>
                     <div className="px-4 py-4">
                       <CardPokemon.Body name={item.name} id={item.id} types={item.types} />
                       <CardPokemon.Footer stats={item.stats} height={item.height} weight={item.weight}></CardPokemon.Footer>

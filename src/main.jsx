@@ -6,6 +6,8 @@ import ItemPage from "./page/item";
 import PokemonPage from "./page/pokemon";
 import AnimatedTransition from "./transition/animatedTransition";
 import { BrowserRouter as Router } from "react-router-dom";
+import { AllPokemonContextProvider } from "./contexts/AllPokemonContext";
+import { CardPokemonLoadingContext, CardPokemonLoadingProvider } from "./contexts/CardPokemonLoadingContext";
 
 // const router = createBrowserRouter([
 //   {
@@ -21,9 +23,13 @@ import { BrowserRouter as Router } from "react-router-dom";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <CartProvider>
-      <Router>
-        <AnimatedTransition />
-      </Router>
+      <AllPokemonContextProvider>
+        <CardPokemonLoadingProvider>
+          <Router>
+            <AnimatedTransition />
+          </Router>
+        </CardPokemonLoadingProvider>
+      </AllPokemonContextProvider>
     </CartProvider>
   </React.StrictMode>
 );
